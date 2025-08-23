@@ -1,0 +1,25 @@
+name: WebAcademy UFAC Deploy Action
+description: Inicia a ação de deploy de uma aplicação no ambiente do WebAcademy UFAC
+
+inputs:
+  app-id:
+    description: ID da aplicação
+    required: true
+  api-key:
+    description: Token de autenticação
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Deploy
+      shell: bash
+      run: |
+        curl -X 'POST' \
+        'https://srv750236.hstgr.cloud/api/application.deploy' \
+        -H 'accept: application/json' \
+        -H 'x-api-key: ${{ inputs.api-key }}' \
+        -H 'Content-Type: application/json' \
+        -d '{
+          "applicationId": "${{ inputs.app-id }}"
+        }'
